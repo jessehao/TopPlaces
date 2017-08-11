@@ -18,6 +18,7 @@ static NSUInteger STORAGE_RECENT_PHOTOS_CAPACITY = 20;
 @property (strong, nonatomic, readonly) NSMutableArray<FlickrPhoto *> *recentPhotos;
 @property (nonatomic, readonly, getter=isChanged) BOOL changed;
 
+#pragma mark - Operations
 - (void)addPhoto:(FlickrPhoto *)photo;
 - (void)save;
 

@@ -14,8 +14,10 @@
 
 @property (strong, nonatomic, readonly) NSMutableDictionary<NSString *, NSMutableArray<FlickrPlace *> *> *places;
 
+#pragma mark - Operations
 - (void)refreshPlaces;
 - (NSArray<FlickrPhoto *> *)photosFromPlace:(FlickrPlace *)place;
 
+#pragma mark - CLASS
 + (FlickrHelper *)sharedHelper;
 @end

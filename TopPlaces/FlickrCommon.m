@@ -24,6 +24,7 @@
 	return value.doubleValue;
 }
 
+#pragma mark - Initialization
 -(instancetype)initWithRaw:(NSDictionary *)raw {
 	self = [self init];
 	if (self) {

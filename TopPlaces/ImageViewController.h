@@ -10,5 +10,4 @@
 
 @interface ImageViewController : UIViewController
 @property (strong, nonatomic) NSURL *imageURL;
-//@property (strong, nonatomic) NSString *backButtonTitle;
 @end

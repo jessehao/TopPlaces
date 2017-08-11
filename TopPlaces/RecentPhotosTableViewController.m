@@ -15,6 +15,7 @@
 
 @implementation RecentPhotosTableViewController
 
+#pragma mark - Lifecycle
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	self.photos = self.storage.recentPhotos;

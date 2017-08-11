@@ -29,8 +29,12 @@
 #pragma mark - Lifecycle
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	self.splitViewController.delegate = self;
 	[self fetchPhotos];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	self.splitViewController.delegate = self;
 }
 
 #pragma mark - Table View Data Source
@@ -69,7 +73,7 @@
 }
 
 
-#pragma mark - Split View
+#pragma mark - Split View Delegate
 - (BOOL)splitViewController:(UISplitViewController *)splitViewController showDetailViewController:(UIViewController *)vc sender:(id)sender {
 	if (splitViewController.collapsed) {
 		ImageViewController *detailImageVC = (ImageViewController *)[(UINavigationController *)vc topViewController];

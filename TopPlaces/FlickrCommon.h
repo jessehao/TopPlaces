@@ -15,6 +15,7 @@
 @property (nonatomic,readonly) double latitude;
 @property (nonatomic, readonly) double longtitude;
 
+#pragma mark - Initialization
 - (instancetype)initWithRaw:(NSDictionary *)raw;
 
 @end

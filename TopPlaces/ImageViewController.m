@@ -8,7 +8,7 @@
 
 #import "ImageViewController.h"
 
-@interface ImageViewController () <UIScrollViewDelegate, UISplitViewControllerDelegate>
+@interface ImageViewController () <UIScrollViewDelegate>
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIImage *image;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -49,15 +49,14 @@
     self.scrollView.contentSize = image.size;
 }
 
+#pragma mark - Lifecycle
 -(void)viewDidLoad {
     [super viewDidLoad];
-//	self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-//	self.navigationItem.leftItemsSupplementBackButton = YES;
-//	self.splitViewController.delegate = self;
     [self.scrollView addSubview:self.imageView];
     [self startDownloadingImage];
 }
 
+#pragma mark - Operations
 -(void)startDownloadingImage {
     self.image = nil;
     if (self.imageURL) {
@@ -97,6 +96,7 @@
 	return CGSizeMake(newWidth, newHeight);
 }
 
+#pragma mark - Scroll View Delegate
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return self.imageView;
 }

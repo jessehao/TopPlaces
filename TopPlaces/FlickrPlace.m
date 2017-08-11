@@ -45,6 +45,7 @@
 	self.content = [raw valueForKeyPath:FLICKR_PLACE_NAME];
 }
 
+#pragma mark - Cpmparation
 - (NSComparisonResult)compare:(FlickrPlace *)place {
 	return [self.city compare:place.city];
 }

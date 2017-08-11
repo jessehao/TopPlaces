@@ -46,7 +46,7 @@
 	NSArray *rawPhotos = [self fetchRawPhotosFromPlace:place];
 	NSMutableArray *photos = [NSMutableArray array];
 	for (NSDictionary *rawPhoto in rawPhotos) {
-		FlickrPhoto *photo = [[FlickrPhoto alloc] initWithRaw:rawPhoto andPlace:place];
+		FlickrPhoto *photo = [[FlickrPhoto alloc] initWithRaw:rawPhoto];
 		[photos addObject:photo];
 	}
 	return photos;

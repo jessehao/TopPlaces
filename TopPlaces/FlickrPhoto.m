@@ -43,12 +43,4 @@
 	return [FlickrFetcher URLforPhoto:self.raw format:FlickrPhotoFormatLarge];
 }
 
-- (instancetype)initWithRaw:(NSDictionary *)raw andPlace:(FlickrPlace *)place {
-	self = [self initWithRaw:raw];
-	if (self) {
-		self.place = place;
-	}
-	return self;
-}
-
 @end
