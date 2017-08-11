@@ -23,9 +23,9 @@ classes like `FlickrHelper` `FlickrPlace` `FlickrPhoto` and `FlickrCommon` depen
 
 # Progress
 
-|  Num  |    Name     |               Requirement                | Released |    Status     |
-| :---: | :---------: | :--------------------------------------: | :------: | :-----------: |
-| **1** | Top Places  | [PDF](https://github.com/jessehao/TopPlaces/blob/master/Docs/Developing%20iOS%207%20Apps_%20Assignment%205.pdf) |    NO    |   **Done!**   |
-| **2** | Top Regions | [PDF](https://github.com/jessehao/TopPlaces/blob/master/Docs/Developing%20iOS%207%20Apps_%20Assignment%206.pdf) |    NO    | to be started |
+|  Num  |    Name     |               Requirement                |                 Release                  |    Status     |
+| :---: | :---------: | :--------------------------------------: | :--------------------------------------: | :-----------: |
+| **1** | Top Places  | [PDF](https://github.com/jessehao/TopPlaces/blob/master/Docs/Developing%20iOS%207%20Apps_%20Assignment%205.pdf) | [1.0.0](https://github.com/jessehao/TopPlaces/releases/tag/1.0.0) |   **Done!**   |
+| **2** | Top Regions | [PDF](https://github.com/jessehao/TopPlaces/blob/master/Docs/Developing%20iOS%207%20Apps_%20Assignment%206.pdf) |                  *nil*                   | to be started |
 
 Watch the project management via [**Trello**](https://trello.com/b/Djuno0KH)
