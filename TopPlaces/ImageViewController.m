@@ -44,15 +44,16 @@
     self.scrollView.zoomScale = 1.0;
     [self.spinner stopAnimating];
     self.imageView.image = image;
-    self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+	CGSize scaled = [self scaledSize:image.size];
+    self.imageView.frame = CGRectMake(0, 0, scaled.width, scaled.height);
     self.scrollView.contentSize = image.size;
 }
 
 -(void)viewDidLoad {
     [super viewDidLoad];
-	self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-	self.navigationItem.leftItemsSupplementBackButton = YES;
-	self.splitViewController.delegate = self;
+//	self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+//	self.navigationItem.leftItemsSupplementBackButton = YES;
+//	self.splitViewController.delegate = self;
     [self.scrollView addSubview:self.imageView];
     [self startDownloadingImage];
 }
@@ -77,6 +78,23 @@
                                                 }];
         [task resume];
     }
+}
+
+- (CGSize)scaledSize:(CGSize)size {
+	CGSize boundsSize = self.view.bounds.size;
+	CGFloat ratio = size.width / size.height;
+	CGFloat newWidth = size.width;
+	CGFloat newHeight = size.height;
+	if (boundsSize.width > boundsSize.height){
+		if (size.height > boundsSize.height) {
+			newHeight = boundsSize.height;
+			newWidth = newHeight * ratio;
+		}
+	} else if (size.width > boundsSize.width){
+		newWidth = boundsSize.width;
+		newHeight = newWidth / ratio;
+	}
+	return CGSizeMake(newWidth, newHeight);
 }
 
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {

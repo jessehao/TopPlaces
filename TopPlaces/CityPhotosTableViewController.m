@@ -23,11 +23,6 @@
 	self.title = self.place.city;
 }
 
-#pragma mark - Table View Delegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[self.storage addPhoto:self.photos[indexPath.row]];
-}
-
 #pragma mark - Actions
 - (IBAction)fetchPhotos {
 	[self.refreshControl beginRefreshing];

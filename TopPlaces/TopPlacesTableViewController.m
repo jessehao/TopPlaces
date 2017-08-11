@@ -57,7 +57,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TOP_PLACES_CELL_IDENTIFIER forIndexPath:indexPath];
     FlickrPlace *place = self.places[self.sortedCountries[indexPath.section]][indexPath.row];
-	cell.textLabel.text = place.city ? place.city : @"Unknown";
+	cell.textLabel.text = place.city && ![place.city isEqualToString:@""] ? place.city : @"Unknown";
 	cell.detailTextLabel.text = place.province;
     return cell;
 }

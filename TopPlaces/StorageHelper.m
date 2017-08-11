@@ -57,7 +57,7 @@
 
 - (void)addPhoto:(FlickrPhoto *)photo {
 	NSInteger index = [self containsPhoto:photo];
-	if (!index) {
+	if (index == self.recentRawPhotos.count - 1) {
 		return;
 	}
 	if (index > 0) {
@@ -80,7 +80,7 @@
 - (NSInteger)containsPhoto:(FlickrPhoto *)photo {
 	for (int i = 0; i<self.recentPhotos.count; i++) {
 		if([self.recentPhotos[i].ID isEqualToString:photo.ID])
-			return i;
+			return self.recentPhotos.count - 1 - i;
 	}
 	return -1;
 }
