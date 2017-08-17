@@ -24,6 +24,8 @@
 		8866DC531F3A055200C4CE0A /* StorageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8866DC521F3A055200C4CE0A /* StorageHelper.m */; };
 		8866DC561F3A05AC00C4CE0A /* FlickrCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 8866DC551F3A05AC00C4CE0A /* FlickrCommon.m */; };
 		886ED97B1F4539060085A2B2 /* TopPlacesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 886ED97A1F4539060085A2B2 /* TopPlacesTests.m */; };
+		886ED9841F4543C80085A2B2 /* TopPlaces.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 886ED9821F4543C80085A2B2 /* TopPlaces.xcdatamodeld */; };
+		886ED98A1F45584D0085A2B2 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 886ED9891F45584D0085A2B2 /* CoreDataTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,9 @@
 		886ED9781F4539060085A2B2 /* TopPlacesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TopPlacesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		886ED97A1F4539060085A2B2 /* TopPlacesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TopPlacesTests.m; sourceTree = "<group>"; };
 		886ED97C1F4539060085A2B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		886ED9831F4543C80085A2B2 /* TopPlaces.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TopPlaces.xcdatamodel; sourceTree = "<group>"; };
+		886ED9881F45584D0085A2B2 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
+		886ED9891F45584D0085A2B2 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +120,10 @@
 				8866DC471F39F83400C4CE0A /* Models */,
 				8866DC451F39F81800C4CE0A /* Utilities */,
 				8866DC461F39F82700C4CE0A /* ViewControllers */,
+				8866DC131F395BD000C4CE0A /* AppDelegate.h */,
+				8866DC141F395BD000C4CE0A /* AppDelegate.m */,
 				8866DC1C1F395BD000C4CE0A /* Main.storyboard */,
+				886ED9821F4543C80085A2B2 /* TopPlaces.xcdatamodeld */,
 				8866DC101F395BD000C4CE0A /* Supporting Files */,
 			);
 			path = TopPlaces;
@@ -127,8 +135,6 @@
 				8866DC1F1F395BD000C4CE0A /* Assets.xcassets */,
 				8866DC211F395BD000C4CE0A /* LaunchScreen.storyboard */,
 				8866DC241F395BD000C4CE0A /* Info.plist */,
-				8866DC131F395BD000C4CE0A /* AppDelegate.h */,
-				8866DC141F395BD000C4CE0A /* AppDelegate.m */,
 				8866DC111F395BD000C4CE0A /* main.m */,
 			);
 			name = "Supporting Files";
@@ -160,6 +166,8 @@
 		8866DC461F39F82700C4CE0A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				886ED9881F45584D0085A2B2 /* CoreDataTableViewController.h */,
+				886ED9891F45584D0085A2B2 /* CoreDataTableViewController.m */,
 				8866DC2D1F397CBB00C4CE0A /* TopPlacesTableViewController.h */,
 				8866DC2E1F397CBB00C4CE0A /* TopPlacesTableViewController.m */,
 				8866DC2A1F397CA100C4CE0A /* FlickrPhotosTableViewController.h */,
@@ -301,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8866DC2C1F397CA100C4CE0A /* FlickrPhotosTableViewController.m in Sources */,
+				886ED9841F4543C80085A2B2 /* TopPlaces.xcdatamodeld in Sources */,
 				8866DC351F397DC100C4CE0A /* CityPhotosTableViewController.m in Sources */,
 				8866DC151F395BD000C4CE0A /* AppDelegate.m in Sources */,
 				8866DC3E1F398AE000C4CE0A /* RecentPhotosTableViewController.m in Sources */,
@@ -313,6 +322,7 @@
 				8866DC561F3A05AC00C4CE0A /* FlickrCommon.m in Sources */,
 				8866DC4D1F3A052200C4CE0A /* FlickrPlace.m in Sources */,
 				8866DC2F1F397CBB00C4CE0A /* TopPlacesTableViewController.m in Sources */,
+				886ED98A1F45584D0085A2B2 /* CoreDataTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,6 +536,19 @@
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		886ED9821F4543C80085A2B2 /* TopPlaces.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				886ED9831F4543C80085A2B2 /* TopPlaces.xcdatamodel */,
+			);
+			currentVersion = 886ED9831F4543C80085A2B2 /* TopPlaces.xcdatamodel */;
+			path = TopPlaces.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8866DC051F395BD000C4CE0A /* Project object */;
 }
