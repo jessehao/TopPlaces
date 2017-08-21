@@ -8,57 +8,53 @@
 
 #import "TopPlacesTableViewController.h"
 #import "CityPhotosTableViewController.h"
-#import "FlickrHelper.h"
-#import "FlickrPlace.h"
+#import "DBAvailability.h"
+#import "Place+CoreDataClass.h"
 
 @interface TopPlacesTableViewController ()
-@property (strong, nonatomic, readonly) FlickrHelper *helper;
-@property (strong, nonatomic, readonly) NSDictionary<NSString *, NSMutableArray<FlickrPlace *> *> *places;
-@property (strong, nonatomic) NSArray<NSString *> *sortedCountries;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @end
 
 @implementation TopPlacesTableViewController
 
-- (NSArray<NSString *> *)sortedCountries {
-	if (!_sortedCountries) {
-		_sortedCountries = [self.places.allKeys sortedArrayUsingSelector:@selector(compare:)];
-	}
-	return _sortedCountries;
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	_managedObjectContext = managedObjectContext;
+	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:Place.entity.name];
+	request.predicate = nil;
+	request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"countOfActivePhotographers" // wrong format!
+															  ascending:NO]];
+	self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+																		managedObjectContext:managedObjectContext
+																		  sectionNameKeyPath:nil
+																				   cacheName:nil];
 }
 
-- (FlickrHelper *)helper {
-	return [FlickrHelper sharedHelper];
+#pragma mark - C&D
+- (void)awakeFromNib {
+	[super awakeFromNib];
+	[self setup];
 }
 
-- (NSDictionary<NSString *, NSMutableArray<FlickrPlace *> *> *)places {
-	return self.helper.places;
+- (void)setup {
+	[[NSNotificationCenter defaultCenter] addObserverForName:DBA_NOTIFICATION_CONTEXT_SET
+													  object:nil
+													   queue:nil
+												  usingBlock:^(NSNotification * _Nonnull note) {
+													  self.managedObjectContext = note.userInfo[DBA_USERINFO_CONTEXT];
+												  }];
 }
 
-#pragma mark - Lifecycle
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	[self fetchPlaces];
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Table View Data Source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return self.sortedCountries.count;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return self.sortedCountries[section];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return self.places[self.sortedCountries[section]].count;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TOP_PLACES_CELL_IDENTIFIER forIndexPath:indexPath];
-    FlickrPlace *place = self.places[self.sortedCountries[indexPath.section]][indexPath.row];
-	cell.textLabel.text = place.city && ![place.city isEqualToString:@""] ? place.city : @"Unknown";
-	cell.detailTextLabel.text = place.province;
+    Place *place = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	cell.textLabel.text = place.name;
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"Active Photographers Number: %lu", place.activePhotographers.count];
     return cell;
 }
 
@@ -68,21 +64,22 @@
 	if ([segue.identifier isEqualToString:TOP_PLACES_TO_FLICKR_PHOTOS_SEGUE_INDENTIFIER] &&
 		[vc isKindOfClass:[CityPhotosTableViewController class]]) {
 		NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-		vc.place = self.places[self.sortedCountries[indexPath.section]][indexPath.row];
+		vc.place = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		vc.managedObjectContext = self.managedObjectContext;
 	}
 }
 
 #pragma mark - Actions
 - (IBAction)fetchPlaces {
-    [self.refreshControl beginRefreshing];
-    dispatch_queue_t queue = dispatch_queue_create("fetch places queue", NULL);
-    dispatch_async(queue, ^{
-		[self.helper refreshPlaces];
-        dispatch_async(dispatch_get_main_queue(), ^{
-			self.sortedCountries = nil;
-			[self.tableView reloadData];
-            [self.refreshControl endRefreshing];
-        });
-    });
+//    [self.refreshControl beginRefreshing];
+//    dispatch_queue_t queue = dispatch_queue_create("fetch places queue", NULL);
+//    dispatch_async(queue, ^{
+//		[self.helper refreshPlaces];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//			self.sortedCountries = nil;
+//			[self.tableView reloadData];
+//            [self.refreshControl endRefreshing];
+//        });
+//    });
 }
 @end

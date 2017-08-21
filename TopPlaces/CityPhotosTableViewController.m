@@ -7,9 +7,8 @@
 //
 
 #import "CityPhotosTableViewController.h"
-#import "FlickrHelper.h"
-#import "FlickrPlace.h"
-#import "StorageHelper.h"
+#import "Photo+CoreDataClass.h"
+#import "Place+CoreDataClass.h"
 
 @interface CityPhotosTableViewController ()
 
@@ -17,23 +16,24 @@
 
 @implementation CityPhotosTableViewController
 
+@synthesize managedObjectContext = _managedObjectContext;
+
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	_managedObjectContext = managedObjectContext;
+	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:Photo.entity.name];
+	request.predicate = [NSPredicate predicateWithFormat:@"place = %@", self.place];
+	request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"uploadDate"
+															  ascending:YES]];
+	self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+																		managedObjectContext:managedObjectContext
+																		  sectionNameKeyPath:nil
+																				   cacheName:nil];
+}
+
 #pragma mark - Lifecycle
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	self.title = self.place.city;
-}
-
-#pragma mark - Actions
-- (IBAction)fetchPhotos {
-	[self.refreshControl beginRefreshing];
-	dispatch_queue_t queue = dispatch_queue_create("fetch photos queue", NULL);
-	dispatch_async(queue, ^{
-		self.photos = [self.helper photosFromPlace:self.place];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.tableView reloadData];
-			[self.refreshControl endRefreshing];
-		});
-	});
+	self.title = self.place.name;
 }
 
 @end

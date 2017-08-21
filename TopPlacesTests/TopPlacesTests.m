@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-
+#import "FlickrFetcher.h"
 @interface TopPlacesTests : XCTestCase
 
 @end

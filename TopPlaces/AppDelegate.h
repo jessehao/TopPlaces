@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 static NSString *const APP_NAME = @"Top Places";
+static NSString *const APP_PROJECT_NAME = @"TopPlaces";
 static NSString *const APP_RECENT_NAME = @"Recents";
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>

@@ -8,8 +8,8 @@
 
 #import "FlickrPhotosTableViewController.h"
 
-@class FlickrPlace;
+@class Place;
 
 @interface CityPhotosTableViewController : FlickrPhotosTableViewController
-@property (strong, nonatomic) FlickrPlace *place;
+@property (strong, nonatomic) Place *place;
 @end

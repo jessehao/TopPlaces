@@ -7,7 +7,8 @@
 //
 
 #import "RecentPhotosTableViewController.h"
-#import "StorageHelper.h"
+#import "RecentPhoto+CoreDataClass.h"
+#import "DBAvailability.h"
 
 @interface RecentPhotosTableViewController ()
 
@@ -15,11 +16,37 @@
 
 @implementation RecentPhotosTableViewController
 
-#pragma mark - Lifecycle
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	self.photos = self.storage.recentPhotos;
-	[self.tableView reloadData];
+@synthesize managedObjectContext = _managedObjectContext;
+
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	_managedObjectContext = managedObjectContext;
+	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:RecentPhoto.entity.name];
+	request.predicate = nil;
+	request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastDate"
+															  ascending:NO]];
+	self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+																		managedObjectContext:managedObjectContext
+																		  sectionNameKeyPath:nil
+																				   cacheName:nil];
+}
+
+#pragma mark - C&D
+- (void)awakeFromNib {
+	[super awakeFromNib];
+	[self setup];
+}
+
+- (void)setup {
+	[[NSNotificationCenter defaultCenter] addObserverForName:DBA_NOTIFICATION_CONTEXT_SET
+													  object:nil
+													   queue:nil
+												  usingBlock:^(NSNotification * _Nonnull note) {
+													  self.managedObjectContext = note.userInfo[DBA_USERINFO_CONTEXT];
+												  }];
+}
+
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

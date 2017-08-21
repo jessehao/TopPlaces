@@ -7,30 +7,29 @@
 //
 
 #import "FlickrPhotosTableViewController.h"
-#import "StorageHelper.h"
-#import "FlickrHelper.h"
-#import "FlickrPhoto.h"
 #import "ImageViewController.h"
+#import "DBAvailability.h"
+#import "Photo+CoreDataClass.h"
+#import "RecentPhoto+Create.h"
 
 @interface FlickrPhotosTableViewController () <UISplitViewControllerDelegate>
-
 @end
 
 @implementation FlickrPhotosTableViewController
 
-- (FlickrHelper *)helper {
-	return [FlickrHelper sharedHelper];
-}
-
-- (StorageHelper *)storage {
-	return [StorageHelper sharedHelper];
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+	_managedObjectContext = managedObjectContext;
+	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:Photo.entity.name];
+	request.predicate = nil;
+	request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"uploadDate"
+															  ascending:YES]];
+	self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+																		managedObjectContext:managedObjectContext
+																		  sectionNameKeyPath:nil
+																				   cacheName:nil];
 }
 
 #pragma mark - Lifecycle
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	[self fetchPhotos];
-}
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
@@ -38,15 +37,14 @@
 }
 
 #pragma mark - Table View Data Source
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.photos.count;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FLICKR_PHOTOS_CELL_IDENTIFIER forIndexPath:indexPath];
-    FlickrPhoto *photo = self.photos[indexPath.row];
+	AbstractPhoto *photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.textLabel.text = photo.title && ![photo.title isEqualToString:@""] ? photo.title : (photo.descriptionContent && ![photo.descriptionContent isEqualToString:@""] ? photo.descriptionContent : @"Unknown");
 	cell.detailTextLabel.text = [photo.descriptionContent isEqualToString:cell.textLabel.text] ? nil : photo.descriptionContent;
+	NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:photo.thumbnailURL]];
+	cell.imageView.image = [UIImage imageWithData:data];
     return cell;
 }
 
@@ -58,15 +56,16 @@
         if (indexPath && [segue.destinationViewController isKindOfClass:[UINavigationController class]]) {
 			ImageViewController *ivc = (ImageViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
 			if ([ivc isKindOfClass:[ImageViewController class]]) {
-				[self prepareImageViewController:ivc toDisplayPhoto:self.photos[indexPath.row]];
-				[self.storage addPhoto:self.photos[indexPath.row]];
+				Photo *photo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+				[self prepareImageViewController:ivc toDisplayPhoto:photo];
+				[RecentPhoto recentPhotoWithPhoto:photo inManagedObjectContext:self.managedObjectContext];
 			}
         }
     }
 }
 
-- (void)prepareImageViewController:(ImageViewController *)ivc toDisplayPhoto:(FlickrPhoto *)photo {
-	ivc.imageURL = photo.url;
+- (void)prepareImageViewController:(ImageViewController *)ivc toDisplayPhoto:(Photo *)photo {
+	ivc.imageURL = [NSURL URLWithString:photo.url];
 	ivc.title = photo.title;
 	ivc.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
 	ivc.navigationItem.leftItemsSupplementBackButton = YES;
@@ -82,8 +81,5 @@
 	}
 	return NO;
 }
-
-#pragma mark - Abstract
-- (void)fetchPhotos{ return; }
 
 @end

@@ -6,11 +6,11 @@
 //  Copyright © 2017年 JH. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CoreDataTableViewController.h"
 
 static NSString *const TOP_PLACES_CELL_IDENTIFIER = @"TopPlacesCell";
 static NSString *const TOP_PLACES_TO_FLICKR_PHOTOS_SEGUE_INDENTIFIER = @"ToFlickrPhotosSegue";
 
-@interface TopPlacesTableViewController : UITableViewController
+@interface TopPlacesTableViewController : CoreDataTableViewController
 
 @end
